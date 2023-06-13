@@ -4,8 +4,11 @@ namespace App\Tables;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use ProtoneMedia\Splade\AbstractTable;
+use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\SpladeTable;
+use Spatie\QueryBuilder\QueryBuilder;
+use ProtoneMedia\Splade\AbstractTable;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class Users extends AbstractTable
 {
@@ -36,7 +39,23 @@ class Users extends AbstractTable
      */
     public function for()
     {
-        return User::query();
+
+        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
+            $query->where(function ($query) use ($value) {
+                Collection::wrap($value)->each(function ($value) use ($query) {
+                    $query
+                        ->orWhere('username', 'LIKE', "%{$value}%")
+                        ->orWhere('first_name', 'LIKE', "%{$value}%")
+                        ->orWhere('last_name', 'LIKE', "%{$value}%")
+                        ->orWhere('email', 'LIKE', "%{$value}%");
+                });
+            });
+        });
+
+        return QueryBuilder::for(User::class)
+            ->defaultSort('id')
+            ->allowedSorts(['id', 'username', 'first_name', 'last_name', 'email', 'created_at'])
+            ->allowedFilters(['username', 'first_name', 'last_name', 'email', $globalSearch]);
     }
 
     /**
@@ -48,14 +67,21 @@ class Users extends AbstractTable
     public function configure(SpladeTable $table)
     {
         $table
-            ->withGlobalSearch(columns: ['id'])
-            ->column('id', sortable: true);
+            ->withGlobalSearch(columns: ['id', 'username', 'first_name', 'last_name', 'email'])
+            ->column('id', sortable: true)
+            ->column('username', sortable: true)
+            ->column('first_name', sortable: true, hidden: true)
+            ->column('last_name', sortable: true, hidden: true)
+            ->column('email', sortable: true)
+            ->column('created_at', sortable: true, hidden: true)
+            ->column('action')
+            ->paginate(15);
 
-            // ->searchInput()
-            // ->selectFilter()
-            // ->withGlobalSearch()
+        // ->searchInput()
+        // ->selectFilter()
+        // ->withGlobalSearch()
 
-            // ->bulkAction()
-            // ->export()
+        // ->bulkAction()
+        // ->export()
     }
 }
