@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCountryRequest;
+use App\Http\Requests\UpdateCountryRequest;
 use App\Models\Country;
 use App\Tables\Countries;
 use Illuminate\Http\Request;
@@ -57,9 +58,11 @@ class CountryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCountryRequest $request, Country $country)
     {
-        //
+       $country->update($request->validated());
+       Splade::toast('Country Update Successfully')->autoDismiss('15');
+       return to_route('admin.country.index'); 
     }
 
     /**
