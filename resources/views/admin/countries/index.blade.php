@@ -3,7 +3,7 @@
   <div class="flex justify-between items-center">
     <h1 class="text-xl font-bold mt-3 mb-3">Countrues</h1>
     <div class="p-4">
-      <Link href="{{ route('admin.country.create') }}" class="py-2 px-3 bg-green-700 text-white rounded hover:bg-green-600">New User</Link>
+      <Link href="{{ route('admin.country.create') }}" class="py-2 px-3 bg-green-700 text-white rounded hover:bg-green-600">New Country</Link>
     </div>
   </div>
 

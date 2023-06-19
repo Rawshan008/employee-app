@@ -78,13 +78,13 @@
 
                     <a
                         class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                        href="#"
+                        href="/admin/state"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
                         </svg>
 
-                        <span class="mx-2 text-sm font-medium">City</span>
+                        <span class="mx-2 text-sm font-medium">States</span>
                     </a>
 
                     <a
@@ -98,7 +98,7 @@
 
 
 
-                        <span class="mx-2 text-sm font-medium">State</span>
+                        <span class="mx-2 text-sm font-medium">City</span>
                     </a>
 
                     <a

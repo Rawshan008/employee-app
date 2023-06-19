@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Forms\CreateStateForm;
+use App\Forms\UpdateStateForm;
+use App\Models\State;
+use App\Tables\States;
 use Illuminate\Http\Request;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class StateController extends Controller
 {
@@ -11,7 +16,9 @@ class StateController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.states.index', [
+            'states' => States::class,
+        ]);
     }
 
     /**
@@ -19,15 +26,20 @@ class StateController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.states.create', [
+            'form' => CreateStateForm::class,      
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, CreateStateForm $form)
     {
-        //
+        $data = $form->validate($request);
+        State::create($data);
+        Splade::toast('State Created Successfully')->autoDismiss(15);
+        return to_route('admin.state.index');
     }
 
     /**
@@ -41,9 +53,14 @@ class StateController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(State $state)
     {
-        //
+        return view(
+            'admin.states.edit', 
+            compact('state'),
+            [
+            'form' => UpdateStateForm::class,
+        ]);
     }
 
     /**
@@ -57,8 +74,10 @@ class StateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(State $state)
     {
-        //
+        $state->delete();
+        Splade::toast('State Delete Successfully')->autoDismiss(15);
+        return to_route('admin.state.index');
     }
 }

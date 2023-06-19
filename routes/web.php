@@ -54,8 +54,8 @@ Route::middleware('splade')->group(function () {
         Route::resource('/users', UserController::class);
         Route::resource('/employee', EmployeeController::class);
         Route::resource('/country', CountryController::class);
-        Route::resource('/city', CityController::class);
         Route::resource('/state', StateController::class);
+        Route::resource('/city', CityController::class);
         Route::resource('/department', DepartmentController::class);
     });
 
