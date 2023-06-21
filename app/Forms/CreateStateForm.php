@@ -27,6 +27,7 @@ class CreateStateForm extends AbstractForm
             Input::make('name')
                 ->label('State Name')
                 ->rules('required|max:10'),
+                
             Select::make('country_id')
                 ->label('Country Code')
                 ->options(Country::pluck('name', 'id')->toArray())

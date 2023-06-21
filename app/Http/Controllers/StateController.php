@@ -57,18 +57,22 @@ class StateController extends Controller
     {
         return view(
             'admin.states.edit', 
-            compact('state'),
             [
-            'form' => UpdateStateForm::class,
+            'form' => UpdateStateForm::make()
+                ->action(route('admin.state.update', $state))
+                ->fill($state),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, State $state, UpdateStateForm $form)
     {
-        //
+     $data = $form->validate($request);
+     $state->update($data);
+     Splade::toast('Update Sucessfully')->autoDismiss(15);
+     return to_route('admin.state.index');
     }
 
     /**
@@ -77,7 +81,7 @@ class StateController extends Controller
     public function destroy(State $state)
     {
         $state->delete();
-        Splade::toast('State Delete Successfully')->autoDismiss(15);
+        Splade::toast()->warning('State Delete Successfully')->autoDismiss(15);
         return to_route('admin.state.index');
     }
 }
