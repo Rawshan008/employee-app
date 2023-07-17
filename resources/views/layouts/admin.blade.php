@@ -3,7 +3,9 @@
 
 
   <div class="flex space-x-4">
+    @hasrole('admin')
     <Sidebar />
+    @endhasrole
 
     <!-- Page Content -->
     <main class="flex-1">

@@ -10,6 +10,18 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                         </Link>
                     </div>
+
+                    <div class="hidden space-x-8 sm:my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-responsive-nav-link>
+
+                        @hasrole('admin')
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                            {{ __('Admin') }}
+                        </x-responsive-nav-link>
+                        @endhasrole
+                    </div>
                 </div>
 
                 <!-- Settings Dropdown -->

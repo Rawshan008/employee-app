@@ -5,7 +5,9 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleColtroller;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -49,14 +51,16 @@ Route::middleware('splade')->group(function () {
     });
 
 
-    Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
-        Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::middleware(['auth', 'role:admin'])->prefix('/admin')->name('admin.')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('index');
         Route::resource('/users', UserController::class);
         Route::resource('/employee', EmployeeController::class);
         Route::resource('/country', CountryController::class);
         Route::resource('/state', StateController::class);
         Route::resource('/city', CityController::class);
         Route::resource('/department', DepartmentController::class);
+        Route::resource('/roles', RoleColtroller::class);
+        Route::resource('/permissions', PermissionController::class);
     });
 
     require __DIR__ . '/auth.php';
